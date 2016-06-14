@@ -8,12 +8,14 @@ from openerp.addons.website_sale_default_country.controllers.main import (
     WebsiteSale
 )
 
-controller = 'openerp.addons.website_sale_default_country.controllers.main'
+
+parent = 'openerp.addons.website_sale.controllers.main'
+child = 'openerp.addons.website_sale_default_country.controllers.main'
 
 
 class TestMain(TransactionCase):
 
-    @mock.patch('%s.website_sale' % controller)
+    @mock.patch('%s.website_sale' % parent)
     def setUp(self, mk):
         super(TestMain, self).setUp()
         self.mock = mk
@@ -25,7 +27,7 @@ class TestMain(TransactionCase):
         self.controller.checkout_values(self.expect_data)
         self.mock.checkout_values.assert_called_once_with(self.expect_data)
 
-    @mock.patch('%s.request' % controller)
+    @mock.patch('%s.request' % child)
     def test_checkout_values_sets_default(self, mk):
         """ It should set default of result checkout to company country """
         mk.website.company_id = self.env.ref('base.us')
